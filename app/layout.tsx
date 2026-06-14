@@ -98,7 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <h3 className="font-semibold text-sm uppercase tracking-wide text-blue-300 mb-3">Related Directories</h3>
                 <ul className="space-y-2 text-sm text-blue-200">
                   <li><a href="https://menopausedirectory.co" className="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">Menopause Specialists</a></li>
-                  <li><a href="https://ibclcdirectory.com" className="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">IBCLC Directory</a></li>
+                  <li><a href="https://lactationconsultantdirectory.com" className="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">IBCLC Directory</a></li>
                 </ul>
               </div>
             </div>
