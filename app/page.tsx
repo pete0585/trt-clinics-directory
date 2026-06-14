@@ -9,7 +9,7 @@ import { getStateName } from '@/lib/utils'
 
 export const metadata: Metadata = {
   title: 'FindTRTClinic — Find a TRT Clinic Near You | Testosterone Replacement Therapy Directory',
-  description: 'Find testosterone replacement therapy clinics near you. Filter by insurance, treatment type (injections, pellets, cream), physician supervision, and telehealth availability. 500+ clinics listed.',
+  description: 'Find testosterone replacement therapy clinics near you. Filter by insurance, treatment type (injections, pellets, cream), physician supervision, and telehealth availability. 2,000+ TRT clinics listed nationwide.',
   openGraph: {
     title: 'FindTRTClinic — Find a TRT Clinic Near You',
     description: 'The most comprehensive directory of TRT and hormone optimization clinics. Filter by what actually matters: insurance, treatment type, and physician supervision.',
