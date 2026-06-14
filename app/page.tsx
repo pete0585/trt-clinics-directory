@@ -7,6 +7,8 @@ import ListingCard from '@/components/ListingCard'
 import { getFeaturedListings, getTotalListingCount, getActiveCities } from '@/lib/data'
 import { getStateName } from '@/lib/utils'
 
+export const dynamic = "force-dynamic"
+
 export const metadata: Metadata = {
   title: 'FindTRTClinic — Find a TRT Clinic Near You | Testosterone Replacement Therapy Directory',
   description: 'Find testosterone replacement therapy clinics near you. Filter by insurance, treatment type (injections, pellets, cream), physician supervision, and telehealth availability. 2,000+ clinics nationwide.',
