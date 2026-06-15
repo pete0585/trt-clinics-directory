@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle, Shield, Star } from 'lucide-react'
+import { createClient } from '@supabase/supabase-js'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -23,6 +24,7 @@ export default function ClaimPageClient({ listingId }: ClaimPageClientProps) {
   const [error, setError] = useState<string | null>(null)
   const [clinicName, setClinicName] = useState('')
   const [isLoadingUpgrade, setIsLoadingUpgrade] = useState(false)
+  const [monthlyViews, setMonthlyViews] = useState(0)
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -33,6 +35,22 @@ export default function ClaimPageClient({ listingId }: ClaimPageClientProps) {
       setStep('upgrade')
     }
   }, [searchParams])
+
+  useEffect(() => {
+    if (step !== 'upgrade') return
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
+    const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
+    supabase
+      .from('listing_views')
+      .select('*', { count: 'exact', head: true })
+      .eq('directory_slug', 'trt-clinics')
+      .eq('listing_id', listingId)
+      .gte('viewed_at', monthStart)
+      .then(({ count }) => setMonthlyViews(count ?? 0))
+  }, [step, listingId])
 
   async function onSubmit(data: FormData) {
     setError(null)
@@ -90,7 +108,31 @@ export default function ClaimPageClient({ listingId }: ClaimPageClientProps) {
         <div className="text-center mb-8">
           <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" aria-label="" />
           <h1 className="text-2xl font-bold text-brand-navy mb-2">Listing Claimed!</h1>
-          <p className="text-brand-steel">Your clinic profile is live. Upgrade to get more patient inquiries.</p>
+        </div>
+
+        <div className='text-center mb-6'>
+          <div className='text-5xl font-bold text-gray-900'>{monthlyViews}</div>
+          <div className='text-gray-500 mt-1'>people viewed your profile this month</div>
+          <div className='mt-3 text-red-600 font-semibold'>
+            0 could contact you — your phone and website are hidden
+          </div>
+        </div>
+
+        <div className='space-y-3 mb-6 text-left'>
+          {[
+            ['Your phone number visible to searchers', 'They can call you directly from your listing'],
+            ['Your website linked', 'Drive traffic to your practice site'],
+            ['Your full bio displayed', 'Build trust before they reach out'],
+            ['Verified badge', 'Stand out from unclaimed profiles'],
+          ].map(([title, sub]) => (
+            <div key={title} className='flex items-start gap-3'>
+              <span className='text-green-500 text-lg leading-tight'>✓</span>
+              <div>
+                <div className='font-medium text-gray-900'>{title}</div>
+                <div className='text-sm text-gray-500'>{sub}</div>
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="grid md:grid-cols-2 gap-4">
