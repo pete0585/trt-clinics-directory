@@ -1,4 +1,4 @@
-export type ListingTier = 'free' | 'verified' | 'featured'
+export type ListingTier = 'free' | 'verified' | 'featured' | 'unclaimed'
 export type ClinicType = 'in_person' | 'telehealth' | 'hybrid'
 export type TreatmentOption = 'injections' | 'pellets' | 'cream' | 'oral' | 'enclomiphene' | 'peptides'
 export type PhysicianCredential = 'MD' | 'DO' | 'NP' | 'PA'
