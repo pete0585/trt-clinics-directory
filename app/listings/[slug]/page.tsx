@@ -3,9 +3,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import ListingDetail from '@/components/ListingDetail'
+import { ViewTracker } from '@/components/ViewTracker'
 import { getListing, getFeaturedListings } from '@/lib/data'
 import { getStateName, TREATMENT_LABELS } from '@/lib/utils'
 import ListingCard from '@/components/ListingCard'
+import { createServiceClient } from '@/lib/supabase/server'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -43,6 +45,16 @@ export default async function ListingDetailPage({ params }: PageProps) {
 
   if (!listing) notFound()
 
+  const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
+  const supabase = await createServiceClient()
+  const { count: viewCount } = await supabase
+    .from('listing_views')
+    .select('*', { count: 'exact', head: true })
+    .eq('directory_slug', 'trt-clinics')
+    .eq('listing_id', String(listing.id))
+    .gte('viewed_at', monthStart)
+  const monthlyViews = viewCount ?? 0
+
   // JSON-LD structured data
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -69,6 +81,8 @@ export default async function ListingDetailPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
+      <ViewTracker listingId={String(listing.id)} directorySlug='trt-clinics' />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1 text-sm text-brand-steel mb-6" aria-label="Breadcrumb">
@@ -86,7 +100,7 @@ export default async function ListingDetailPage({ params }: PageProps) {
           <span className="text-brand-navy font-medium truncate max-w-[200px]">{listing.clinic_name}</span>
         </nav>
 
-        <ListingDetail listing={listing} />
+        <ListingDetail listing={listing} monthlyViews={monthlyViews} />
 
         {/* Related listings */}
         {related.filter(r => r.id !== listing.id).length > 0 && (
