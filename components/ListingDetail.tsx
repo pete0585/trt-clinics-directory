@@ -6,11 +6,13 @@ import ContactForm from './ContactForm'
 
 interface ListingDetailProps {
   listing: TrtListing
+  monthlyViews: number
 }
 
-export default function ListingDetail({ listing }: ListingDetailProps) {
+export default function ListingDetail({ listing, monthlyViews }: ListingDetailProps) {
   const isFeatured = listing.listing_tier === 'featured'
   const isVerified = listing.listing_tier === 'verified'
+  const isClaimed = listing.listing_tier !== 'unclaimed' && listing.listing_tier != null
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -73,34 +75,50 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
 
           {/* Contact sidebar */}
           <div className="md:w-56 lg:w-64 space-y-3 flex-shrink-0">
-            {listing.phone && (
-              <a
-                href={`tel:${listing.phone}`}
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-brand-orange hover:bg-brand-orange-dark text-white font-semibold rounded-lg transition-colors"
-              >
-                <Phone className="w-4 h-4" aria-label="Phone" />
-                {formatPhone(listing.phone)}
-              </a>
-            )}
-            {listing.booking_url && (
-              <a
-                href={listing.booking_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-brand-navy hover:bg-brand-navy-light text-white font-semibold rounded-lg transition-colors"
-              >
-                Book Appointment <ExternalLink className="w-4 h-4" aria-label="" />
-              </a>
-            )}
-            {listing.website && (
-              <a
-                href={listing.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 border border-brand-light-2 text-brand-slate hover:border-brand-blue hover:text-brand-blue font-medium rounded-lg transition-colors text-sm"
-              >
-                <Globe className="w-4 h-4" aria-label="Website" /> Visit Website
-              </a>
+            {isClaimed ? (
+              <>
+                {listing.phone && (
+                  <a
+                    href={`tel:${listing.phone}`}
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-brand-orange hover:bg-brand-orange-dark text-white font-semibold rounded-lg transition-colors"
+                  >
+                    <Phone className="w-4 h-4" aria-label="Phone" />
+                    {formatPhone(listing.phone)}
+                  </a>
+                )}
+                {listing.booking_url && (
+                  <a
+                    href={listing.booking_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-brand-navy hover:bg-brand-navy-light text-white font-semibold rounded-lg transition-colors"
+                  >
+                    Book Appointment <ExternalLink className="w-4 h-4" aria-label="" />
+                  </a>
+                )}
+                {listing.website && (
+                  <a
+                    href={listing.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3 border border-brand-light-2 text-brand-slate hover:border-brand-blue hover:text-brand-blue font-medium rounded-lg transition-colors text-sm"
+                  >
+                    <Globe className="w-4 h-4" aria-label="Website" /> Visit Website
+                  </a>
+                )}
+              </>
+            ) : (
+              <div className='rounded-lg border border-gray-200 bg-gray-50 p-4 text-center'>
+                <p className='text-sm text-gray-500'>
+                  Phone, website, and bio are only visible after this provider claims their listing.
+                </p>
+                <a
+                  href={`/claim/${listing.id}`}
+                  className='mt-2 inline-block text-sm font-medium text-blue-600 hover:underline'
+                >
+                  Is this you? Claim your free profile →
+                </a>
+              </div>
             )}
 
             {!listing.claimed && (
@@ -118,8 +136,25 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
       <div className="grid md:grid-cols-3 gap-6">
         {/* Main content */}
         <div className="md:col-span-2 space-y-6">
+          {/* Stats dashboard for claimed listings */}
+          {isClaimed && (
+            <div className='mb-6 rounded-xl border border-blue-200 bg-blue-50 p-4'>
+              <p className='text-xs font-semibold uppercase tracking-wide text-blue-600'>Profile Activity</p>
+              <p className='mt-1 text-3xl font-bold text-blue-900'>{monthlyViews}</p>
+              <p className='text-sm text-blue-700'>people viewed your profile this month</p>
+              {listing.listing_tier === 'free' && (
+                <p className='mt-2 text-xs text-blue-600'>
+                  0 could contact you.{' '}
+                  <a href={`/claim/${listing.id}?upgrade=true`} className='underline font-medium'>
+                    Upgrade to be reachable →
+                  </a>
+                </p>
+              )}
+            </div>
+          )}
+
           {/* Bio */}
-          {listing.bio && (
+          {isClaimed && listing.bio && (
             <div className="bg-white rounded-xl border border-brand-light-2 p-6">
               <h2 className="font-bold text-brand-navy mb-3">About This Clinic</h2>
               <p className="text-brand-slate leading-relaxed">{listing.bio}</p>
