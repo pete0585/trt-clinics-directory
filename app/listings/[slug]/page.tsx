@@ -55,6 +55,8 @@ export default async function ListingDetailPage({ params }: PageProps) {
     .gte('viewed_at', monthStart)
   const monthlyViews = viewCount ?? 0
 
+  const isClaimed = listing.listing_tier !== 'unclaimed' && listing.listing_tier != null
+
   // JSON-LD structured data
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -69,8 +71,8 @@ export default async function ListingDetailPage({ params }: PageProps) {
       postalCode: listing.zip ?? undefined,
       addressCountry: 'US',
     },
-    telephone: listing.phone ?? undefined,
-    url: listing.website ?? undefined,
+    telephone: isClaimed ? (listing.phone ?? undefined) : undefined,
+    url: isClaimed ? (listing.website ?? undefined) : undefined,
     description: listing.bio ?? undefined,
   }
 
