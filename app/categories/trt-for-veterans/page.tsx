@@ -50,7 +50,7 @@ const faqSchema = {
 }
 
 export default async function TRTForVeteransPage() {
-  const { listings } = await getListings({ insurance_accepted: true })
+  const { listings } = await getListings({ insurance: true })
   const featuredListings = listings.slice(0, 9)
 
   return (
