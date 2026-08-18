@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
   title: 'FindTRTClinic — Find a TRT Clinic Near You | Testosterone Replacement Therapy Directory',
-  description: 'Find testosterone replacement therapy clinics near you. Filter by insurance, treatment type (injections, pellets, cream), physician supervision, and telehealth availability. 2,000+ clinics nationwide.',
+  description: 'Find testosterone replacement therapy clinics near you. Filter by insurance, treatment type, physician supervision, and telehealth. 2,000+ clinics.',
   openGraph: {
     title: 'FindTRTClinic — Find a TRT Clinic Near You',
     description: 'The most comprehensive directory of TRT and hormone optimization clinics. Filter by what actually matters: insurance, treatment type, and physician supervision.',
