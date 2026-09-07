@@ -27,58 +27,73 @@ function getStaticCitySitemapEntries(): MetadataRoute.Sitemap {
     })
 }
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+async function getListingLocationUrls(): Promise<{
+  listingUrls: MetadataRoute.Sitemap
+  cityUrls: MetadataRoute.Sitemap
+  stateUrls: MetadataRoute.Sitemap
+}> {
+  const empty = { listingUrls: [], cityUrls: [], stateUrls: [] }
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!supabaseUrl || !supabaseKey) return empty
 
-  // Get all active listing slugs
-  const { data: listings } = await supabase
-    .from('trt_listings')
-    .select('slug, updated_at')
-    .eq('is_active', true)
-    .eq('is_approved', true)
+  try {
+    const supabase = createClient(supabaseUrl, supabaseKey)
 
-  // Get unique state+city combos
-  const { data: locations } = await supabase
-    .from('trt_listings')
-    .select('city, state')
-    .eq('is_active', true)
-    .eq('is_approved', true)
+    const [{ data: listings }, { data: locations }] = await Promise.all([
+      supabase
+        .from('trt_listings')
+        .select('slug, updated_at')
+        .eq('is_active', true)
+        .eq('is_approved', true),
+      supabase
+        .from('trt_listings')
+        .select('city, state')
+        .eq('is_active', true)
+        .eq('is_approved', true),
+    ])
 
-  const listingUrls: MetadataRoute.Sitemap = (listings ?? []).map(l => ({
-    url: `${SITE_URL}/listings/${l.slug}`,
-    lastModified: new Date(l.updated_at),
-    changeFrequency: 'weekly',
-    priority: 0.8,
-  }))
-
-  const cityMap = new Map<string, string>()
-  for (const loc of (locations ?? [])) {
-    if (loc.city && loc.state) {
-      cityMap.set(`${loc.state}__${loc.city}`, `${loc.state}__${loc.city}`)
-    }
-  }
-
-  const stateSet = new Set<string>()
-  const cityUrls: MetadataRoute.Sitemap = []
-  for (const [key] of cityMap) {
-    const [state, city] = key.split('__')
-    stateSet.add(state.toLowerCase())
-    cityUrls.push({
-      url: `${SITE_URL}/trt-clinics/${state.toLowerCase()}/${cityToSlug(city)}`,
+    const listingUrls: MetadataRoute.Sitemap = (listings ?? []).map(l => ({
+      url: `${SITE_URL}/listings/${l.slug}`,
+      lastModified: new Date(l.updated_at),
       changeFrequency: 'weekly',
-      priority: 0.7,
-    })
+      priority: 0.8,
+    }))
+
+    const cityMap = new Map<string, string>()
+    for (const loc of (locations ?? [])) {
+      if (loc.city && loc.state) {
+        cityMap.set(`${loc.state}__${loc.city}`, `${loc.state}__${loc.city}`)
+      }
+    }
+
+    const stateSet = new Set<string>()
+    const cityUrls: MetadataRoute.Sitemap = []
+    for (const [key] of cityMap) {
+      const [state, city] = key.split('__')
+      stateSet.add(state.toLowerCase())
+      cityUrls.push({
+        url: `${SITE_URL}/trt-clinics/${state.toLowerCase()}/${cityToSlug(city)}`,
+        changeFrequency: 'weekly',
+        priority: 0.7,
+      })
+    }
+
+    const stateUrls: MetadataRoute.Sitemap = Array.from(stateSet).map(state => ({
+      url: `${SITE_URL}/trt-clinics/${state}`,
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    }))
+
+    return { listingUrls, cityUrls, stateUrls }
+  } catch (error) {
+    console.error('sitemap: failed to load listing/location URLs', error)
+    return empty
   }
+}
 
-  const stateUrls: MetadataRoute.Sitemap = Array.from(stateSet).map(state => ({
-    url: `${SITE_URL}/trt-clinics/${state}`,
-    changeFrequency: 'weekly',
-    priority: 0.6,
-  }))
-
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const { listingUrls, cityUrls, stateUrls } = await getListingLocationUrls()
   const staticCityUrls = getStaticCitySitemapEntries()
 
   return [
