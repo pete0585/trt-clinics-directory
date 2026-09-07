@@ -3,12 +3,13 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import ListingCard from '@/components/ListingCard'
 import { getListings } from '@/lib/data'
+import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Find a TRT Clinic in Austin, TX | Find TRT Clinic',
   description:
     'Find testosterone replacement therapy clinics in Austin, TX. Physician-supervised TRT with insurance options and telehealth.',
-  alternates: { canonical: 'https://findtrtclinic.com/trt-clinics/austin-tx' },
+  alternates: { canonical: `${SITE_URL}/trt-clinics/austin-tx` },
 }
 
 export const revalidate = 86400

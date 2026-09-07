@@ -3,12 +3,13 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import ListingCard from '@/components/ListingCard'
 import { getListings } from '@/lib/data'
+import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Find a TRT Clinic in San Diego, CA | Find TRT Clinic',
   description:
     'Find testosterone replacement therapy clinics in San Diego — serving Chula Vista, El Cajon, Escondido, Carlsbad, Oceanside, and the greater military community at Camp Pendleton and Naval Station San Diego.',
-  alternates: { canonical: 'https://findtrtclinic.com/trt-clinics/san-diego-ca' },
+  alternates: { canonical: `${SITE_URL}/trt-clinics/san-diego-ca` },
 }
 
 export const revalidate = 86400

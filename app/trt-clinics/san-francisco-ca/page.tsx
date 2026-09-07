@@ -1,10 +1,12 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
+import { SITE_URL } from "@/lib/site"
 
 export const metadata: Metadata = {
   title: "Best TRT/HRT Clinic in San Francisco, CA | TRT/HRT Clinic Directory",
   description: "Find trt/hrt clinic in San Francisco, California. 22+ listed. Filter by city and compare providers.",
+  alternates: { canonical: `${SITE_URL}/trt-clinics/san-francisco-ca` },
 }
 
 async function getListings() {

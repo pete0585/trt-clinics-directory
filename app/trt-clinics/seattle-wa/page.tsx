@@ -3,12 +3,13 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import ListingCard from '@/components/ListingCard'
 import { getListings } from '@/lib/data'
+import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Find a TRT Clinic in Seattle, WA | Find TRT Clinic',
   description:
     'Find testosterone replacement therapy clinics in Seattle, Bellevue, Kirkland, Redmond, Tacoma, and the greater Puget Sound region. Compare physician-supervised TRT providers by insurance and delivery method.',
-  alternates: { canonical: 'https://findtrtclinic.com/trt-clinics/seattle-wa' },
+  alternates: { canonical: `${SITE_URL}/trt-clinics/seattle-wa` },
 }
 
 export const revalidate = 86400
