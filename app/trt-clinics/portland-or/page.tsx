@@ -3,12 +3,13 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import ListingCard from '@/components/ListingCard'
 import { getListings } from '@/lib/data'
+import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Find a TRT Clinic in Portland, OR | Find TRT Clinic',
   description:
     'Find testosterone replacement therapy clinics in Portland, Oregon and the metro — Beaverton, Gresham, Lake Oswego, and Vancouver, WA. Physician-supervised TRT with telehealth options.',
-  alternates: { canonical: 'https://findtrtclinic.com/trt-clinics/portland-or' },
+  alternates: { canonical: `${SITE_URL}/trt-clinics/portland-or` },
 }
 
 export const revalidate = 86400

@@ -3,12 +3,13 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import ListingCard from '@/components/ListingCard'
 import { getListings } from '@/lib/data'
+import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Find a TRT Clinic in Philadelphia, PA | Find TRT Clinic',
   description:
     'Find testosterone replacement therapy clinics in Philadelphia and the surrounding metro — Camden, Wilmington, Cherry Hill, and King of Prussia. Compare physician-supervised TRT providers by insurance, delivery method, and telehealth availability.',
-  alternates: { canonical: 'https://findtrtclinic.com/trt-clinics/philadelphia-pa' },
+  alternates: { canonical: `${SITE_URL}/trt-clinics/philadelphia-pa` },
 }
 
 export const revalidate = 86400

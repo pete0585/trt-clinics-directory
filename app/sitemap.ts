@@ -1,8 +1,31 @@
+import { existsSync, readdirSync, statSync } from 'fs'
+import { join } from 'path'
 import { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
-import { cityToSlug, US_STATES } from '@/lib/utils'
+import { cityToSlug } from '@/lib/utils'
+import { SITE_URL } from '@/lib/site'
 
-const SITE_URL = 'https://findtrtclinic.com'
+const CITIES_DIR = join(process.cwd(), 'app', 'trt-clinics')
+
+function getStaticCitySitemapEntries(): MetadataRoute.Sitemap {
+  if (!existsSync(CITIES_DIR)) return []
+
+  return readdirSync(CITIES_DIR, { withFileTypes: true })
+    .filter((entry) => {
+      if (!entry.isDirectory()) return false
+      if (entry.name.startsWith('[') || entry.name.startsWith('(')) return false
+      return existsSync(join(CITIES_DIR, entry.name, 'page.tsx'))
+    })
+    .map((entry) => {
+      const pagePath = join(CITIES_DIR, entry.name, 'page.tsx')
+      return {
+        url: `${SITE_URL}/trt-clinics/${entry.name}`,
+        lastModified: statSync(pagePath).mtime,
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      }
+    })
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = createClient(
@@ -56,6 +79,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
+  const staticCityUrls = getStaticCitySitemapEntries()
+
   return [
     {
       url: SITE_URL,
@@ -75,6 +100,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     },
     ...stateUrls,
+    ...staticCityUrls,
     ...cityUrls,
     ...listingUrls,
   ]

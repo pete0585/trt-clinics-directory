@@ -1,10 +1,12 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
+import { SITE_URL } from "@/lib/site"
 
 export const metadata: Metadata = {
   title: "Best TRT/HRT Clinic in Jacksonville, FL | TRT/HRT Clinic Directory",
   description: "Find trt/hrt clinic in Jacksonville, Florida. 20+ listed. Filter by city and compare providers.",
+  alternates: { canonical: `${SITE_URL}/trt-clinics/jacksonville-fl` },
 }
 
 async function getListings() {
