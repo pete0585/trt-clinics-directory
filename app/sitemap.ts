@@ -1,3 +1,4 @@
+import {articles as editorialArticles} from '@/lib/editorial-blog'
 import { existsSync, readdirSync, statSync } from 'fs'
 import { join } from 'path'
 import { MetadataRoute } from 'next'
@@ -92,7 +93,7 @@ async function getListingLocationUrls(): Promise<{
   }
 }
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+async function originalSitemap(): Promise<MetadataRoute.Sitemap> {
   const { listingUrls, cityUrls, stateUrls } = await getListingLocationUrls()
   const staticCityUrls = getStaticCitySitemapEntries()
 
@@ -120,3 +121,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...listingUrls,
   ]
 }
+
+export default async function editorialSitemap():Promise<MetadataRoute.Sitemap>{const existing=await originalSitemap();const site="https://findtrtclinic.com";return [...existing,{url:site+'/blog',changeFrequency:'weekly'},...editorialArticles().map(p=>({url:site+'/blog/'+p.slug,lastModified:new Date(p.date),changeFrequency:'monthly' as const}))]}
