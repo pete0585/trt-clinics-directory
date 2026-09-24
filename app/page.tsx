@@ -222,12 +222,7 @@ export default async function HomePage() {
             >
               Add Free Listing →
             </Link>
-            <Link
-              href="/submit#pricing"
-              className="px-8 py-3.5 border border-brand-navy text-brand-navy hover:bg-brand-navy hover:text-white font-semibold rounded-xl transition-colors"
-            >
-              View Pricing
-            </Link>
+            
           </div>
         </div>
       </section>
