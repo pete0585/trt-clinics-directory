@@ -6,6 +6,7 @@ import SearchBar from '@/components/SearchBar'
 import ListingCard from '@/components/ListingCard'
 import { getFeaturedListings, getTotalListingCount, getActiveCities } from '@/lib/data'
 import { getStateName } from '@/lib/utils'
+import NewsletterSignup from '@/components/NewsletterSignup'
 
 export const dynamic = "force-dynamic"
 
