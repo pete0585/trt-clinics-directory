@@ -53,12 +53,22 @@ export default async function HomePage() {
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 text-white">
-            Find a TRT Clinic<br />
-            <span className="text-brand-orange">That Actually Has Answers</span>
+            Find trusted TRT clinics near you
           </h1>
 
           <p className="text-lg md:text-xl text-blue-200 max-w-2xl mx-auto mb-8 leading-relaxed">
-            The only directory that filters TRT clinics by what men actually need: insurance coverage, treatment method, physician supervision, and telehealth availability.
+            Browse verified TRT clinics by treatment type, telehealth availability, and insurance — and connect directly. Free, always.
+          </p>
+          <p className="text-sm text-gray-500 mt-4">
+            Are you a TRT clinic?{' '}
+            <a
+              href="https://studiozerohq.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:opacity-80"
+            >
+              List your practice free →
+            </a>
           </p>
 
           <div className="max-w-3xl mx-auto">
