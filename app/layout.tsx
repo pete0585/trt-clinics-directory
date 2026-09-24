@@ -92,7 +92,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <h3 className="font-semibold text-sm uppercase tracking-wide text-blue-300 mb-3">For Clinics</h3>
                 <ul className="space-y-2 text-sm text-blue-200">
                   <li><Link href="/submit" className="hover:text-white transition-colors">Add Your Clinic</Link></li>
-                  <li><Link href="/submit#pricing" className="hover:text-white transition-colors">Listing Pricing</Link></li>
                 </ul>
               </div>
 
