@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
         html: `
           <p>Thanks for submitting <strong>${data.clinic_name}</strong> to FindTRTClinic!</p>
           <p>Your listing is under review and will be live within 24 hours.</p>
-          <p>Once approved, you can claim your listing and upgrade to Verified or Featured for more visibility.</p>
+          <p>Once approved, you can claim your free listing and manage its public profile.</p>
           <p style="color:#64748B;font-size:12px">Questions? Reply to this email.</p>
         `,
       }),

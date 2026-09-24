@@ -28,7 +28,6 @@ export async function POST(request: NextRequest) {
     .from('trt_listings')
     .select('id, clinic_name, email, listing_tier')
     .eq('id', data.listingId)
-    .in('listing_tier', ['verified', 'featured'])
     .single()
 
   if (!listing) {
