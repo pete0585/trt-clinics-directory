@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { SITE_URL } from '@/lib/site'
 import './globals.css'
+import NewsletterSignup from '@/components/NewsletterSignup'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -117,7 +118,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="https://studiozerohq.com" target="_blank" rel="noopener noreferrer" className="hover:underline transition-colors">Studio Zero — AI Marketing Operators for Healthcare</a>
             </p>
           </div>
-        </footer>
+        
+      {/* Newsletter signup compact */}
+      <div className="mt-6 pt-6 border-t border-white/10">
+        <NewsletterSignup compact />
+      </div>
+  </footer>
       </body>
     </html>
   )
