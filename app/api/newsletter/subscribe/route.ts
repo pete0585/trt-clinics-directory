@@ -7,7 +7,7 @@ const NICHE = 'trt' as const
 const DIRECTORY_SLUG = 'trt-clinics-directory' as const
 const NEWSLETTER_NAME = 'Hormone Fieldnotes' as const
 const CONFIRM_URL_BASE = 'https://findtrtclinic.com/newsletter/confirm'
-const DASHBOARD_URL = 'https://aidam.thestrategicveteran.com'
+const DASHBOARD_URL = 'https://aidam.studiozerohq.com'
 
 export async function POST(req: NextRequest) {
   let email: string, first_name: string | undefined
