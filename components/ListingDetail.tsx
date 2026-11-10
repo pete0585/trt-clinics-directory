@@ -58,10 +58,10 @@ export default function ListingDetail({ listing, monthlyViews }: ListingDetailPr
                     <Phone className="w-4 h-4" aria-label="Phone"/>
                     {formatPhone(listing.phone)}
                   </a>)}
-                {listing.booking_url && (<a href={listing.booking_url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-brand-navy hover:bg-brand-navy-light text-white font-semibold rounded-lg transition-colors">
+                {listing.booking_url && (<a data-directory-action="booking_click" href={listing.booking_url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-brand-navy hover:bg-brand-navy-light text-white font-semibold rounded-lg transition-colors">
                     Book Appointment <ExternalLink className="w-4 h-4" aria-label=""/>
                   </a>)}
-                {listing.website && (<a href={listing.website} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full px-4 py-3 border border-brand-light-2 text-brand-slate hover:border-brand-blue hover:text-brand-blue font-medium rounded-lg transition-colors text-sm">
+                {listing.website && (<a data-directory-action="website_click" href={listing.website} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full px-4 py-3 border border-brand-light-2 text-brand-slate hover:border-brand-blue hover:text-brand-blue font-medium rounded-lg transition-colors text-sm">
                     <Globe className="w-4 h-4" aria-label="Website"/> Visit Website
                   </a>)}
               </>)}
