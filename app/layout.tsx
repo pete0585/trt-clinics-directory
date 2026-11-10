@@ -1,3 +1,4 @@
+import DirectoryActions from '@/components/DirectoryActions'
 import EditorialLink from 'next/link'
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -124,6 +125,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NewsletterSignup compact />
       </div>
   </footer>
+      <DirectoryActions />
       </body>
     </html>
   )

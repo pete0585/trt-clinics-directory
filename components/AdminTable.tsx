@@ -105,7 +105,7 @@ export default function AdminTable({ listings, onApprove, onReject }: AdminTable
                   </Link>
                   {listing.website && (
                     <a
-                      href={listing.website}
+                      data-directory-action="website_click" href={listing.website}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-1.5 text-brand-steel hover:text-brand-blue transition-colors rounded"
